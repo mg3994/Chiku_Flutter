@@ -3,7 +3,7 @@
 
 ##  Normal Packages Used
 ```bash
-flutter_bloc,auto_route,get_it,shared_preferences,freezed_annotation,json_annotation,equatable,intl
+flutter_bloc,auto_route,injectable,get_it,shared_preferences,freezed_annotation,json_annotation,equatable,intl
 
 
 
@@ -11,7 +11,7 @@ flutter_bloc,auto_route,get_it,shared_preferences,freezed_annotation,json_annota
 
 ##  Dev Packages Used
 ```bash
-auto_route_generator,build_runner,freezed,json_serializable
+auto_route_generator,injectable_generator,build_runner,freezed,json_serializable
 
 
 
