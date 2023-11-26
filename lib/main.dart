@@ -1,6 +1,19 @@
+import 'package:chiku/core/helper/plugin/locale_theme/locale_theme.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+import 'core/helper/plugin/url_st/url_strategy_export.dart';
+
+late SharedPreferences? sf;
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure that Flutter bindings are initialized
+
+  setPathUrlStrategy(); // Set URL strategy if needed
+
+  sf = await SharedPreferences.getInstance(); // Initialize SharedPreferences
+
   runApp(const MyApp());
 }
 
@@ -10,28 +23,49 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return LocaleTheme(
+      fallbackLocale: ,
+      sharedPreferences: sf!, //add loading logic o initialize this
+      child: Builder(builder: (context) {
+        final state = LocaleThemeProvider.of(context)?.state;
+        debugPrint(state?.flexScheme.name);
+        return MaterialApp(
+          // supportedLocales: [Locale('ar', 'SA')],
+          locale: state?.locale,
+
+          title: 'Flutter Demo',
+
+          theme: FlexThemeData.light(
+              scheme: state?.flexScheme, useMaterial3: true), //state.flexScheme
+          // The Mandy red, dark theme.
+          darkTheme: FlexThemeData.dark(
+              scheme: state?.flexScheme, useMaterial3: true), //state.flexScheme
+          // Use dark or light theme based on system setting.
+          themeMode: state?.themeMode, //state.themeMode
+          localizationsDelegates: LocaleThemeProvider.of(context)?.delegates,
+          // theme: ThemeData(
+          // FlexScheme.mandyRed
+          //   // This is the theme of your application.
+          //   //
+          //   // TRY THIS: Try running your application with "flutter run". You'll see
+          //   // the application has a purple toolbar. Then, without quitting the app,
+          //   // try changing the seedColor in the colorScheme below to Colors.green
+          //   // and then invoke "hot reload" (save your changes or press the "hot
+          //   // reload" button in a Flutter-supported IDE, or press "r" if you used
+          //   // the command line to start the app).
+          //   //
+          //   // Notice that the counter didn't reset back to zero; the application
+          //   // state is not lost during the reload. To reset the state, use hot
+          //   // restart instead.
+          //   //
+          //   // This works for code too, not just values: Most code changes can be
+          //   // tested with just a hot reload.
+          //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          //   useMaterial3: true,
+          // ),
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+      }),
     );
   }
 }

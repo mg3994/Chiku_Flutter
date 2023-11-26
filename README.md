@@ -3,7 +3,7 @@
 
 ##  Normal Packages Used
 ```bash
-flutter_bloc,auto_route,injectable,get_it,shared_preferences,freezed_annotation,json_annotation,equatable,intl
+flutter_bloc,auto_route,injectable,get_it,shared_preferences,freezed_annotation,json_annotation,equatable,intl,flex_color_scheme
 
 
 
