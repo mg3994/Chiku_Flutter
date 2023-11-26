@@ -18,7 +18,12 @@ auto_route_generator,injectable_generator,build_runner,freezed,json_serializable
 ```
 
 A new Flutter project.
+```bash
 
+flutter pub run build_runner build --delete-conflicting-outputs
+
+
+```
 
 
 # All Include Packages are 

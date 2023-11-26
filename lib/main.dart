@@ -1,18 +1,24 @@
 import 'package:chiku/core/helper/plugin/locale_theme/locale_theme.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/di/di.dart';
+import 'core/di/di_repository.dart';
 import 'core/helper/plugin/url_st/url_strategy_export.dart';
 
-late SharedPreferences? sf;
+late SharedPreferencesService sharedPreferencesService;
+
 void main() async {
+  configureAppEnv(appEnvironment: Environment.prod);
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensure that Flutter bindings are initialized
 
   setPathUrlStrategy(); // Set URL strategy if needed
-
-  sf = await SharedPreferences.getInstance(); // Initialize SharedPreferences
+  sharedPreferencesService = getIt.get<SharedPreferencesService>();
+  await sharedPreferencesService.initialize();
+  // sf = await SharedPreferences.getInstance(); // Initialize SharedPreferences
 
   runApp(const MyApp());
 }
@@ -24,13 +30,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LocaleTheme(
-      fallbackLocale: ,
-      sharedPreferences: sf!, //add loading logic o initialize this
+      // fallbackLocale: ,
+      sharedPreferences: sharedPreferencesService
+          .sharedPreferences, //add loading logic o initialize this
+
       child: Builder(builder: (context) {
         final state = LocaleThemeProvider.of(context)?.state;
-        debugPrint(state?.flexScheme.name);
+        debugPrint("${state?.flexScheme.name}here");
+        debugPrint(state?.locale?.languageCode.toString());
         return MaterialApp(
-          // supportedLocales: [Locale('ar', 'SA')],
+          supportedLocales: [
+            Locale('en', 'US'),
+            Locale('ar', 'SA')
+          ], //TODO from LocaleTheme impl
           locale: state?.locale,
 
           title: 'Flutter Demo',

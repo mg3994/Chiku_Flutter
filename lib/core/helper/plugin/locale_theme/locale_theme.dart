@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../di/di.dart';
+import '../../../di/di_repository.dart';
+
 class LocaleTheme extends StatefulWidget {
   final Widget child;
   final SharedPreferences sharedPreferences;
   final List<Locale?>? supportedLocales;
   final Locale? fallbackLocale;
+  final ConstantsTemplate? constantsTemplate;
 
   /// Overrides device locale.
   final Locale? startLocale;
@@ -21,7 +25,7 @@ class LocaleTheme extends StatefulWidget {
   /// useFallbackTranslations: true
   /// ```
   final bool useFallbackTranslations;
-  
+
   final FlexScheme? flexScheme; //TODO
   final ThemeMode? initialThemeMode; //TODO
   LocaleTheme(
@@ -34,7 +38,8 @@ class LocaleTheme extends StatefulWidget {
       this.useFallbackTranslations = true,
       this.flexScheme,
       this.initialThemeMode,
-      required this.sharedPreferences}) {
+      required this.sharedPreferences,
+      this.constantsTemplate}) {
     //  fallbackLocale!.languageCode.isNotEmpty ?   : supportedLocales?.singleWhere((element) => element?.languageCode == "en"); //try using Default locale with Constant
   }
 
@@ -61,7 +66,15 @@ class LocaleThemeState extends State<LocaleTheme> {
     super.initState();
     state = CoreLocaleThemeState(
       // flexScheme: widget.flexScheme, //shared Pref
-      themeMode: ThemeMode.light,
+      themeMode: getIt<ConstantsTemplate>().defaultThemeMode(),
+
+      ///widget.constantsTemplate.defaultThemeMode(),
+      locale: getIt<ConstantsTemplate>().defaultLocale(),
+
+      /// widget.constantsTemplate.defaultLocale(),
+      flexScheme: getIt<ConstantsTemplate>().defaultFlexScheme(),
+
+      /// widget.constantsTemplate.defaultFlexScheme(),
     );
   }
 
