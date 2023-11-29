@@ -130,4 +130,25 @@ class SharedPreferencesService {
   Future<bool> setString(String key, String value) {
     return sharedPreferences.setString(key, value);
   }
+
+  FlexScheme? getFlexColorScheme(String key) {
+    //TODO Key
+    final schemeName = sharedPreferences.getString(key);
+    if (schemeName != null) {
+      try {
+        return FlexScheme.values.firstWhere(
+          (scheme) => scheme.name == schemeName,
+          // orElse: () => null,
+        );
+      } catch (_) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool> setFlexColorScheme(String key, FlexScheme value) {
+    return sharedPreferences.setString(key, value.name);
+  }
 }
