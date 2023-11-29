@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return LocaleTheme(
       // fallbackLocale: ,
-      sharedPreferences: sharedPreferencesService
-          .sharedPreferences, //add loading logic o initialize this
+      sharedPreferencesService: sharedPreferencesService
+         , //add loading logic o initialize this
 
       child: Builder(builder: (context) {
         final state = LocaleThemeProvider.of(context)?.state;
