@@ -1,18 +1,17 @@
 import 'package:chiku/core/helper/plugin/locale_theme/core_locale_theme_state.dart';
+import 'package:chiku/main.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../di/di.dart';
 import '../../../di/di_repository.dart';
 
 class LocaleTheme extends StatefulWidget {
   final Widget child;
-  final SharedPreferences sharedPreferences;
+  final SharedPreferencesService sharedPreferencesService;
   final List<Locale?>? supportedLocales;
   final Locale? fallbackLocale;
-  final ConstantsTemplate? constantsTemplate;
 
   /// Overrides device locale.
   final Locale? startLocale;
@@ -28,18 +27,18 @@ class LocaleTheme extends StatefulWidget {
 
   final FlexScheme? flexScheme; //TODO
   final ThemeMode? initialThemeMode; //TODO
-  LocaleTheme(
-      {super.key,
-      required this.child,
-      this.supportedLocales,
-      this.fallbackLocale = const Locale("en", 'US'),
-      this.startLocale,
-      this.useOnlyLangCode = true,
-      this.useFallbackTranslations = true,
-      this.flexScheme,
-      this.initialThemeMode,
-      required this.sharedPreferences,
-      this.constantsTemplate}) {
+  LocaleTheme({
+    super.key,
+    required this.child,
+    this.supportedLocales,
+    this.fallbackLocale = const Locale("en", 'US'),
+    this.startLocale,
+    this.useOnlyLangCode = true,
+    this.useFallbackTranslations = true,
+    this.flexScheme,
+    this.initialThemeMode,
+    required this.sharedPreferencesService,
+  }) {
     //  fallbackLocale!.languageCode.isNotEmpty ?   : supportedLocales?.singleWhere((element) => element?.languageCode == "en"); //try using Default locale with Constant
   }
 
@@ -71,8 +70,9 @@ class LocaleThemeState extends State<LocaleTheme> {
       ///widget.constantsTemplate.defaultThemeMode(),
       locale: getIt<ConstantsTemplate>().defaultLocale(),
 
-      /// widget.constantsTemplate.defaultLocale(),
-      flexScheme: getIt<ConstantsTemplate>().defaultFlexScheme(),
+      /// widget.constantsTemplate.defaultLocale(), //TODO key
+      flexScheme: sharedPreferencesService.getFlexColorScheme() ??
+          getIt<ConstantsTemplate>().defaultFlexScheme(),
 
       /// widget.constantsTemplate.defaultFlexScheme(),
     );

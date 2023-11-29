@@ -123,8 +123,8 @@ class SharedPreferencesService {
   }
 
   // Methods to interact with SharedPreferences
-  String getString(String key) {
-    return sharedPreferences.getString(key) ?? '';
+  String? getString(String key) {
+    return sharedPreferences.getString(key);
   }
 
   Future<bool> setString(String key, String value) {
