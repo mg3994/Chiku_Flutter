@@ -13,7 +13,7 @@ final getIt = GetIt.instance;
   preferRelativeImports: true,
   asExtension: false,
 )
-void configureAppEnv({required String appEnvironment}) => $initGetIt(getIt,
+void configureAppEnvDI({required String appEnvironment}) => $initGetIt(getIt,
     environment: appEnvironment); //name will be same as mentioned abov
 // void configureDependencies({required GetIt instance}) =>
 //     init(instance); // this name will be hint: 1

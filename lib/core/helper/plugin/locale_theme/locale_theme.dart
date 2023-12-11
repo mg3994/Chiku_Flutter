@@ -71,7 +71,7 @@ class LocaleThemeState extends State<LocaleTheme> {
       locale: getIt<ConstantsTemplate>().defaultLocale(),
 
       /// widget.constantsTemplate.defaultLocale(), //TODO key
-      flexScheme: sharedPreferencesService.getFlexColorScheme() ??
+      flexScheme: sharedPreferencesService.getFlexColorScheme("flexScheme") ??
           getIt<ConstantsTemplate>().defaultFlexScheme(),
 
       /// widget.constantsTemplate.defaultFlexScheme(),
@@ -97,6 +97,7 @@ class LocaleThemeProvider extends InheritedWidget {
       super.key,
       required super.child});
 
+  ///by default wwe have to use
   static LocaleThemeState? of(BuildContext context) => context
       .dependOnInheritedWidgetOfExactType<LocaleThemeProvider>()
       ?.stateWidget;

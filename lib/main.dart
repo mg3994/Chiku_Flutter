@@ -11,7 +11,7 @@ import 'core/helper/plugin/url_st/url_strategy_export.dart';
 late SharedPreferencesService sharedPreferencesService;
 
 void main() async {
-  configureAppEnv(appEnvironment: Environment.prod);
+  configureAppEnvDI(appEnvironment: Environment.prod);
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensure that Flutter bindings are initialized
 
@@ -20,19 +20,25 @@ void main() async {
   await sharedPreferencesService.initialize();
   // sf = await SharedPreferences.getInstance(); // Initialize SharedPreferences
 
-  runApp(const MyApp());
+  runApp(MyApp(
+      // sharedPreferencesService: sharedPreferencesService,
+      ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  // final SharedPreferencesService sharedPreferencesService;
+  const MyApp({
+    super.key,
+    // required this.sharedPreferencesService
+  });
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return LocaleTheme(
       // fallbackLocale: ,
-      sharedPreferencesService: sharedPreferencesService
-         , //add loading logic o initialize this
+      sharedPreferencesService:
+          sharedPreferencesService, //add loading logic o initialize this
 
       child: Builder(builder: (context) {
         final state = LocaleThemeProvider.of(context)?.state;
